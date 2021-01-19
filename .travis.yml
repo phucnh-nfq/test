@@ -15,7 +15,7 @@ cache:
 
 stages:
   - name: test
-    if: branch = master
+    if: branch = main
 
 jobs:
   include:
