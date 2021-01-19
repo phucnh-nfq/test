@@ -10,4 +10,11 @@ class SimpleTest extends WebTestCase
     {
         $this->assertEquals(200, 400 / 2);
     }
+
+    public function testSimpleIndex()
+    {
+        $client = self::createClient();
+        $client->request('GET', '/');
+        $this->assertResponseIsSuccessful();
+    }
 }
