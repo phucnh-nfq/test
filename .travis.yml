@@ -1,0 +1,35 @@
+language: php
+php:
+  - 7.3
+os: linux
+dist: bionic
+sudo: true
+
+services:
+  - mysql
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+    - bin/.phpunit
+
+stages:
+  - name: test
+    if: branch = master
+
+jobs:
+  include:
+    - stage: test
+      before_install:
+        - cp .env.dist .env.test.local
+        - sed -i 's/APP_ENV=dev/APP_ENV=test/' .env.test.local
+        - cp .env.test.local .env
+        - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
+      before_script:
+        - composer self-update
+        - composer install --no-plugins --no-scripts --no-interaction --prefer-dist --optimize-autoloader
+      script:
+        - mkdir -p build/logs
+        - ./bin/phpunit -c phpunit.xml
+      after_success:
+        - travis_retry php vendor/bin/coveralls
