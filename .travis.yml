@@ -29,7 +29,9 @@ jobs:
         - composer self-update
         - composer install --no-plugins --no-scripts --no-interaction --prefer-dist --optimize-autoloader
       script:
-        - mkdir -p build/logs
-        - ./bin/phpunit -c phpunit.xml
+#        - mkdir -p build/logs
+#        - ./bin/phpunit -c phpunit.xml
+        - ./bin/phpunit --coverage-clover coverage.xml
       after_success:
-        - travis_retry php vendor/bin/php-coveralls
+        - bash <(curl -s https://codecov.io/bash)
+#        - travis_retry php vendor/bin/php-coveralls
