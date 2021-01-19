@@ -32,4 +32,4 @@ jobs:
         - mkdir -p build/logs
         - ./bin/phpunit -c phpunit.xml
       after_success:
-        - travis_retry php vendor/bin/coveralls
+        - travis_retry php vendor/bin/php-coveralls
